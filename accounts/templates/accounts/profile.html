@@ -1,0 +1,24 @@
+{% extends 'images/base.html' %}
+{% load static %}
+{% block title %}Register{% endblock title %}
+
+
+{% block body %}
+<div>
+    <h1>{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+    <img src="{{ profile.photo.url }}" alt="profile-photo" width="150px" height="auto">
+    <p>Age: {{ profile.user.age }}</p>
+    <p>username: {{ profile.user.username }}</p>
+    <p>Date Joined: {{ profile.user.date_joined }}</p>
+    <p>Bio:</p>
+    <p>{{ profile.bio }}</p>
+    <a href="{% url 'accounts:user_profile_update' %}" role="button" type="button">Update profile</a>
+    <a href="{% url 'accounts:delete_user' user.pk %}" role="button" type="button">Close This Account</a>
+</div>
+<div>
+
+
+    </form>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,19 @@
+{% extends 'images/base.html' %}
+{% block title %}Delete {{ user.username|title }}{% endblock title %}
+
+
+{% block body %}
+<div>
+    <center><h3>Close the account {{ user.username|title }}!!!</h3>e</center>
+</div>
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <input type="submit" value="Close" class="btn btn-outline-success">
+
+    </form>
+    <a href="{% url 'accounts:user_profile' %}" role="button" type="button">Go Back</a>
+</div>
+
+{% endblock body %}

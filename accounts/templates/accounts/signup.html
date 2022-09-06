@@ -1,0 +1,18 @@
+{% extends 'images/base.html' %}
+{% block title %}Register{% endblock title %}
+
+
+{% block body %}
+<div>
+    <center>Register New User</center>
+</div>
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Sign Up" class="btn btn-outline-success">
+
+    </form>
+</div>
+
+{% endblock body %}
