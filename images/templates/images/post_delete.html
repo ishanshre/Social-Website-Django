@@ -1,0 +1,19 @@
+{% extends 'images/base.html' %}
+{% block title %}Delete{% endblock title %}
+
+
+{% block body %}
+<main class="form-signin w-50 m-auto justify-content-center text-center">
+    <div>
+        <center><h1>Delete This Post ?</h1></center>
+    </div>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Delete" class="btn btn-outline-success">
+        </form>
+    </div>
+
+</main>
+
+{% endblock body %}

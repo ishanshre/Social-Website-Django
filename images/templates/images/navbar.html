@@ -27,7 +27,7 @@
             <ul class="dropdown-menu text-small">
               <li><a class="dropdown-item" href="#">New project...</a></li>
               {% if user.is_authenticated %}
-              <li><a class="dropdown-item" href="{% url 'accounts:user_profile' %}">My Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:user_profile' %}">{{ user.first_name }} {{ user.last_name }}</a></li>
               <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
               {% else %}
               <li><a class="dropdown-item" href="{% url 'accounts:login' %}">Sign In</a></li>
