@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from datetime import datetime
 from accounts.models import Profile
+from django.urls import reverse
 # Create your models here.
 
 class Post(models.Model):
@@ -15,3 +16,6 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.user.user.first_name} {self.user.user.last_name}"
+
+    def get_absolute_url(self):
+        return reverse('images:post_detail', args=[str(self.id)])
