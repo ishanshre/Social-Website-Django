@@ -8,6 +8,7 @@ from .views import (
     ProfileView,
     ProfileUpdateView,
     UserDeleteView,
+    
 )
 from django.contrib.auth.views import LogoutView
 
