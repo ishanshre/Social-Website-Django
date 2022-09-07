@@ -1,7 +1,9 @@
 from django.shortcuts import render
-
+from django.views.generic import ListView
+from .models import Post
 # Create your views here.
 
-
-def index(request):
-    return render(request, 'images/index.html')
+class IndexView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'images/index.html'
