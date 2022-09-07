@@ -12,11 +12,30 @@
           <div class="col-8">
             <div class="card justify-content-center" style="width: auto;">
               <div class="card-header">
-                <img src="{{ posts.user.photo.url }}" alt="{{ posts.caption }}" width="32" height="32" class="rounded-circle"> &emsp13;
-                {{ posts.user.user.first_name }}{{ posts.user.user.last_name }} <hr>
-                <p>Date Created: {{ posts.created_at }}</p>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 ">
+                      <img src="{{ posts.user.photo.url }}" alt="{{ posts.caption }}" width="32" height="32" class="rounded-circle"> &emsp13;
+                      {{ posts.user.user.first_name }}{{ posts.user.user.last_name }}
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-end">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-outline-white btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                          ...
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url 'images:post_update' posts.id %}">Update</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <a href="{{ post.get_absolute_url }}"><img src="{{ posts.image.url }}" class="card-img-top" alt="Image"></a>
+              <img src="{{ posts.image.url }}" class="card-img-top" alt="Image">
               <div class="card-body">
                 <p>Caption: {{ posts.caption }}</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
