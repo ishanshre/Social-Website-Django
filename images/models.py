@@ -14,4 +14,4 @@ class Post(models.Model):
     no_of_likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.caption
+        return f"{self.user.user.first_name} {self.user.user.last_name}"

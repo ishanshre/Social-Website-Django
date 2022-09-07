@@ -1,6 +1,6 @@
 {% extends 'images/base.html' %}
 {% load static %}
-{% block title %}Register{% endblock title %}
+{% block title %}{{ profile.user.username|title }}{% endblock title %}
 
 
 {% block body %}
