@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from .models import Profile
+from django_countries.widgets import CountrySelectWidget
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -28,4 +29,7 @@ class LoginViewForm(AuthenticationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['date_of_birth','photo','bio']
+        fields = ['date_of_birth','photo','bio', 'country']
+        widgets = {
+            'country': CountrySelectWidget()   
+        }
