@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='posts')
     image = models.ImageField(upload_to="post_images")
     caption = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
