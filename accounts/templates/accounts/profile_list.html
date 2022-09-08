@@ -1,0 +1,21 @@
+{% extends 'images/base.html' %}
+{% load static %}
+{% block title %}{{ profile.user.username|title }}{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    <center><h1>List Of People</h1></center>
+    <div class="container">
+        {% for profile in profiles %}
+        <a href="{{ profile.get_absolute_url }}">{{ profile }}</a> <br>
+        {% endfor %}
+    </div>
+</div>
+<div>
+
+
+    </form>
+</div>
+
+{% endblock body %}

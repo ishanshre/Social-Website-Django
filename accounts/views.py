@@ -4,6 +4,7 @@ from django.views.generic.edit import (
     DeleteView,
 )
 from django.views import View
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.views import (
     LoginView,
     PasswordChangeView,
@@ -128,3 +129,20 @@ class UserDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     def get_success_message(self, cleaned_data):
         print(cleaned_data)
         return self.message
+    
+
+class ProfileListView(ListView):
+    model = Profile
+    template_name = 'accounts/profile_list.html'
+    context_object_name = 'profiles'
+
+    def get_queryset(self):
+        return Profile.objects.all().exclude(user=self.request.user.id)
+
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = 'accounts/profile_detail.html'
+    context_object_name = 'profiles'
+
+    

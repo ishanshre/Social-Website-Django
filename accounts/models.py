@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
 from django_countries.fields import CountryField
+from django.urls import reverse
 # Create your models here.
 
 class CustomUser(AbstractUser):
@@ -15,4 +16,14 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to='profile_photo/%Y/%m/%d/', blank=True, default='profile_photo/default.png')
     bio = models.TextField()
     country = CountryField(blank=True, null=True, default=None)
-    
+    following = models.ManyToManyField(get_user_model(), related_name='following', blank=True)
+
+    def profiles_post(self):
+        return self.posts.all()   
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}" 
+
+    def get_absolute_url(self):
+        return reverse('accounts:profile_detail', kwargs={'pk':self.pk})
+        

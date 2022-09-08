@@ -1,0 +1,21 @@
+{% extends 'images/base.html' %}
+{% load static %}
+{% block title %}{{ profiles.user.username|title }}{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    <div>
+        <h1>{{ profiles.user.first_name }} {{ profiles.user.last_name }}</h1>
+        <img src="{{ profiles.photo.url }}" alt="profiles-photo" width="150px" height="auto">
+        <p>Country: {{ profiles.country.name }}</p>
+        <p>Age: {{ profiles.user.age }}</p>
+        <p>username: {{ profiles.user.username }}</p>
+        <p>Date Joined: {{ profiles.user.date_joined }}</p>
+        <p>Bio:</p>
+        <p>{{ profiles.bio }}</p>
+    </div> 
+</div>
+
+
+{% endblock body %}

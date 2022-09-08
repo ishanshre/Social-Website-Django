@@ -89,3 +89,4 @@ def LikeView(request, pk):
     else:
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse('images:post_detail', args=[str(pk)]))
+
