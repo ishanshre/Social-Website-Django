@@ -18,6 +18,9 @@ class Profile(models.Model):
     country = CountryField(blank=True, null=True, default=None)
     following = models.ManyToManyField(get_user_model(), related_name='following', blank=True)
 
+    def total_followers(self):
+        return self.following.count()
+
     def profiles_post(self):
         return self.posts.all()   
 

@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+import profile
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.views.generic.edit import (
     CreateView,
     DeleteView,
@@ -14,7 +16,7 @@ from django.contrib.auth.views import (
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import LoginViewForm, CustomUserCreationForm, CustomUserChangeForm, ProfileForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import Profile
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -91,7 +93,8 @@ class ProfileView(LoginRequiredMixin, View):
     template_name = 'accounts/profile.html'
     def get(self, request, *args, **kwargs):
         profile = Profile.objects.get(user=request.user)
-        return render(request, self.template_name, context={'profile':profile})
+        followers = profile.total_followers()
+        return render(request, self.template_name, context={'profile':profile,'followers':followers})
     
         
     
@@ -145,4 +148,23 @@ class ProfileDetailView(DetailView):
     template_name = 'accounts/profile_detail.html'
     context_object_name = 'profiles'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
     
+        profileFollow = get_object_or_404(Profile, id=self.kwargs['pk'])
+        follow = False
+        total_followers = profileFollow.total_followers()
+        if profileFollow.following.filter(id=self.request.user.id).exists():
+            follow = True
+        context['follow']=follow
+        context['followers']=total_followers
+        return context    
+    
+
+def ProfileFollow(request,pk):
+    profile = get_object_or_404(Profile, id=request.POST.get('profile_id'))
+    if profile.following.filter(id=request.user.id).exists():
+        profile.following.remove(request.user)
+    else:
+        profile.following.add(request.user)
+    return HttpResponseRedirect(reverse('accounts:profile_detail', args=[str(pk)]))

@@ -12,6 +12,7 @@
     <p>username: {{ profile.user.username }}</p>
     <p>Date Joined: {{ profile.user.date_joined }}</p>
     <p>Bio:</p>
+    <p>Followers: {{ followers }}</p>
     <p>{{ profile.bio }}</p>
     <a href="{% url 'accounts:user_profile_update' %}" role="button" type="button">Update profile</a>
     <a href="{% url 'accounts:delete_user' user.pk %}" role="button" type="button">Close This Account</a>

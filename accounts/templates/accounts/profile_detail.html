@@ -14,7 +14,21 @@
         <p>Date Joined: {{ profiles.user.date_joined }}</p>
         <p>Bio:</p>
         <p>{{ profiles.bio }}</p>
+        <p>Followers: {{ followers }}</p>
     </div> 
+</div>
+<div>
+    <form action="{% url 'accounts:profile_follow' profiles.pk %}" method="post">
+        {% csrf_token %}
+        {% if profiles.user != request.user %}
+        {% if follow %}
+            <button type="submit" name="profile_id" value="{{ profiles.pk }}">Unfollow</button>
+            {% else %}
+            <button type="submit" name="profile_id" value="{{ profiles.pk }}">Follow</button>
+
+        {% endif %}
+        {% endif %}
+    </form>
 </div>
 
 

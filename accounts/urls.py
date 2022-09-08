@@ -10,6 +10,7 @@ from .views import (
     UserDeleteView,
     ProfileListView,
     ProfileDetailView,
+    ProfileFollow,
 )
 from django.contrib.auth.views import LogoutView
 
@@ -27,4 +28,5 @@ urlpatterns = [
     path('profile/delete/<pk>', UserDeleteView.as_view(), name='delete_user'),
     path('profile_list/', ProfileListView.as_view(), name='profile_list'),
     path('<int:pk>/detail/', ProfileDetailView.as_view(), name='profile_detail'),
+    path("follow/<int:pk>/", ProfileFollow, name='profile_follow')
 ]

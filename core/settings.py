@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_countries',
+    'taggit',
 
     #localapps
     'accounts.apps.AccountsConfig',
