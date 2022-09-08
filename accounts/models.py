@@ -21,6 +21,9 @@ class Profile(models.Model):
     def total_followers(self):
         return self.following.count()
 
+    def list_followers(self):
+        return self.following.all()
+
     def profiles_post(self):
         return self.posts.all()   
 

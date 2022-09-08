@@ -154,10 +154,12 @@ class ProfileDetailView(DetailView):
         profileFollow = get_object_or_404(Profile, id=self.kwargs['pk'])
         follow = False
         total_followers = profileFollow.total_followers()
+        list_followers = profileFollow.list_followers()
         if profileFollow.following.filter(id=self.request.user.id).exists():
             follow = True
         context['follow']=follow
         context['followers']=total_followers
+        context['list_followers']=list_followers
         return context    
     
 

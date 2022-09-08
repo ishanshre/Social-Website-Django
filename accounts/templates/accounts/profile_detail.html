@@ -14,10 +14,19 @@
         <p>Date Joined: {{ profiles.user.date_joined }}</p>
         <p>Bio:</p>
         <p>{{ profiles.bio }}</p>
-        <p>Followers: {{ followers }}</p>
+        <div class="dropdown">
+            <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <p>Followers: {{ followers }}</p>
+            </button>
+            <ul class="dropdown-menu">
+                {% for foll in list_followers %}
+              <li><a class="dropdown-item" href="{% url 'accounts:profile_detail' foll.id %}">{{ foll.first_name }} {{ foll.last_name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
     </div> 
 </div>
-<div>
+<div class="container mt-2">
     <form action="{% url 'accounts:profile_follow' profiles.pk %}" method="post">
         {% csrf_token %}
         {% if profiles.user != request.user %}
