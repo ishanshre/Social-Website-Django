@@ -94,7 +94,8 @@ class ProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = Profile.objects.get(user=request.user)
         followers = profile.total_followers()
-        return render(request, self.template_name, context={'profile':profile,'followers':followers})
+        list_followers = profile.list_followers()
+        return render(request, self.template_name, context={'profile':profile,'followers':followers, 'list_followers':list_followers})
     
         
     
