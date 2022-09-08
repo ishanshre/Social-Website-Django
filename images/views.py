@@ -1,13 +1,14 @@
 import profile
 from urllib import request
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from .forms import PostForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 # Create your views here.
 
 class IndexView(ListView):
@@ -20,6 +21,17 @@ class PostDetailView(DetailView):
     model = Post
     context_object_name = 'posts'
     template_name = 'images/post_detail.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostDetailView, self).get_context_data(*args,**kwargs)
+        postLikes = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = postLikes.total_likes()
+        liked = False
+        if postLikes.likes.filter(id=self.request.user.profile.id).exists():
+            liked=True
+        context['total_likes'] = total_likes
+        context['liked']=liked
+        return context
 
 
 class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -68,3 +80,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def test_func(self):
         self.object = self.get_object()
         return self.object.user == self.request.user.profile
+
+#logic for like/unline function
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=str(request.POST.get('post_id')))
+    if post.likes.filter(id=request.user.profile.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('images:post_detail', args=[str(pk)]))
