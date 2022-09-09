@@ -14,3 +14,4 @@ def total_following(pk):
     user_profile = Profile.objects.get(user = pk)
     following = Profile.objects.filter(following__in=[user_profile.user])
     return following.count()
+

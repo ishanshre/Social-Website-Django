@@ -8,15 +8,21 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from .forms import PostForm
+from accounts.forms import Profile
 from django.urls import reverse_lazy, reverse
 # Create your views here.
 
-class IndexView(ListView):
+class IndexView(LoginRequiredMixin, ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'images/index.html'
     
-
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        user_profile = Profile.objects.get(user = self.request.user.id)
+        suggest = Profile.objects.all().exclude(following__in=[user_profile.user])
+        context['suggest'] = suggest
+        return context
 
 class PostDetailView(DetailView):
     model = Post
