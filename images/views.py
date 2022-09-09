@@ -1,13 +1,16 @@
 import profile
 from urllib import request
+from xml.etree.ElementTree import Comment
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views import View
+from django.views.generic.detail import SingleObjectMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from accounts.forms import Profile
 from django.urls import reverse_lazy, reverse
 # Create your views here.
@@ -24,21 +27,52 @@ class IndexView(LoginRequiredMixin, ListView):
         context['suggest'] = suggest
         return context
 
-class PostDetailView(DetailView):
+class CommentGet(DetailView):
     model = Post
     context_object_name = 'posts'
     template_name = 'images/post_detail.html'
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PostDetailView, self).get_context_data(*args,**kwargs)
+        context = super().get_context_data(*args,**kwargs)
         postLikes = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = postLikes.total_likes()
         liked = False
         if postLikes.likes.filter(id=self.request.user.profile.id).exists():
             liked=True
+        context['form']=CommentForm()
         context['total_likes'] = total_likes
         context['liked']=liked
         return context
+
+class CommentPost(LoginRequiredMixin, SingleObjectMixin,FormView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'images/post_detail.html'
+    form_class = CommentForm
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+    
+    def form_valid(self, form, *args, **kwargs):
+        comment = form.save(commit=False)
+        comment.post = self.object
+        comment.author = self.request.user.profile
+        comment.save()
+        return super().form_valid(request, *args, **kwargs)
+
+    def get_success_url(self):
+        post_comment = self.get_object()
+        return reverse('images:post_detail', args=[str(post_comment.id)])
+
+
+class PostDetailView(View):
+    def get(self, request, *args, **kwargs):
+        view = CommentGet.as_view()
+        return view(request, *args, **kwargs)
+    def post(self, request,*args, **kwargs):
+        view = CommentPost.as_view()
+        return view(request, *args, **kwargs)
+
 
 
 class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):

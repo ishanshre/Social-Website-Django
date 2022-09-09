@@ -1,5 +1,6 @@
 {% extends 'images/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}Home{% endblock title %}
 
 
@@ -55,7 +56,43 @@
             Column
           </div>
       </div>
+      <br><hr>
+      <div class="container">
+        <div class="card w-50">
+          <div class="card-body">
+            {% if posts.comments.all %}
+            <h4>Comments</h4>
+            {% for comment in posts.comments.all %}
+              <div class="card">
+                <div class="card-header">
+                  &emsp13;by {{ comment.author.user.first_name }}&emsp13;{{ comment.author.user.last_name }}
+                </div>
+                <div class="card-body">
+                  {{ comment }}
+                </div>
+                <div class="card-footer">
+                  {{ comment.updated }}
+                </div>
+              </div><br>
+            {% endfor %}
+  
+          {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="container mt-2">
+          <div class="card w-50">
+            <div class="card-body">
+              <h3>Add Coomments</h3>
+              <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Add Comment" class="btn btn-secondary">
+              </form>
+            </div>
 
+          </div>
+      </div>
 </div>
 
 {% endblock body %}
