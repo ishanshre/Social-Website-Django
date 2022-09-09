@@ -9,6 +9,7 @@
     
         <div class="container row g-5">
           <div class="col-md-8">
+            {% if posts %}
           {% for post in posts %}
 
           
@@ -43,6 +44,7 @@
             </div>
           <br>
           {% endfor %}
+          {% endif %}
         </div>
           <div class="col-md-3">
             Column

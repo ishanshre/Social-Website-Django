@@ -14,7 +14,6 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(get_user_model(),related_name='image_post')
-    follow = models.ManyToManyField(get_user_model(), related_name='follows')
     
     def total_likes(self):
         return self.likes.count()

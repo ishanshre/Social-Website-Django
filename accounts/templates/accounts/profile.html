@@ -1,5 +1,6 @@
 {% extends 'images/base.html' %}
 {% load static %}
+{% load image_tags %}
 {% block title %}{{ profile.user.username|title }}{% endblock title %}
 
 
@@ -27,4 +28,5 @@
     <a href="{% url 'accounts:user_profile_update' %}" role="button" type="button">Update profile</a>
     <a href="{% url 'accounts:delete_user' user.pk %}" role="button" type="button">Close This Account</a>
 </div>
+Following: {% total_following profile.user.id %}
 {% endblock body %}
