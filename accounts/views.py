@@ -20,6 +20,7 @@ from django.urls import reverse_lazy, reverse
 from .models import Profile
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 # Create your views here.
 
 
@@ -171,3 +172,14 @@ def ProfileFollow(request,pk):
     else:
         profile.following.add(request.user)
     return HttpResponseRedirect(reverse('accounts:profile_detail', args=[str(pk)]))
+
+
+class SearchUser(ListView):
+    model = get_user_model()
+    context_object_name= 'user_search'
+    template_name = 'accounts/search_user.html'
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return self.model.objects.filter(
+            Q(username__icontains=query)|Q(first_name__icontains=query)|Q(last_name__icontains=query)
+        )
