@@ -15,6 +15,7 @@ class IndexView(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'images/index.html'
+    
 
 
 class PostDetailView(DetailView):
